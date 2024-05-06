@@ -1,24 +1,24 @@
-package caller
+package ario
 
 import (
 	"fmt"
 	"net/url"
 	"testing"
 
-	"github.com/kahosan/aria2-rpc/internal/resp"
-	"github.com/kahosan/aria2-rpc/internal/testutils"
+	"github.com/saeidrp/aria2-rpc/caller"
+	"github.com/saeidrp/aria2-rpc/testutils"
 )
 
 func TestHTTPRPC(t *testing.T) {
 	uri, _ := url.Parse(testutils.Arai2Uri("https://"))
-	c, err := NewCaller(uri)
+	c, err := caller.NewCaller(uri)
 	if err != nil {
 		fmt.Println(err)
 		t.Fatal("NewCaller should not return error")
 	}
 
 	t.Run("connect should not be error", func(t *testing.T) {
-		r := resp.Version{}
+		r := Version{}
 		err = c.Call("aria2.getVersion", nil, &r)
 		if err != nil {
 			t.Fatal("get version failed: ", err)
@@ -37,13 +37,13 @@ func TestHTTPRPC(t *testing.T) {
 
 func TestWSRPC(t *testing.T) {
 	uri, _ := url.Parse(testutils.Arai2Uri("wss://"))
-	c, err := NewCaller(uri)
+	c, err := caller.NewCaller(uri)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	t.Run("connect should not be error", func(t *testing.T) {
-		r := resp.Version{}
+		r := Version{}
 		err = c.Call("aria2.getVersion", nil, &r)
 		if err != nil {
 			t.Fatal("get version failed: ", err)

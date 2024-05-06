@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	ario "github.com/kahosan/aria2-rpc"
-	"github.com/kahosan/aria2-rpc/internal/testutils"
-	"github.com/kahosan/aria2-rpc/notifier"
+	ario "github.com/saeidrp/aria2-rpc"
+	"github.com/saeidrp/aria2-rpc/notifier"
+	"github.com/saeidrp/aria2-rpc/testutils"
 )
 
 func TestNotifyListener(t *testing.T) {

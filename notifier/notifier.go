@@ -17,7 +17,7 @@ type reply struct {
 }
 
 type Event struct {
-	Gid string `json:"gid"`
+	GID string `json:"gid"`
 }
 
 type Tasks = map[string]func(gid string)
@@ -108,7 +108,7 @@ func (n *notifier) Listener(c context.Context) (*Notify, error) {
 				// created channels for all methods in advance
 				ch, _ := r.Load(resp.Method)
 				select {
-				case ch.(chan string) <- event.Gid:
+				case ch.(chan string) <- event.GID:
 				default:
 					// if the channel is full, skip the event, maybe the corresponding subscription does not exist
 				}

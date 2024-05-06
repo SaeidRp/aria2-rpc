@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	ario "github.com/kahosan/aria2-rpc"
-	"github.com/kahosan/aria2-rpc/internal/testutils"
+	ario "github.com/saeidrp/aria2-rpc"
+	"github.com/saeidrp/aria2-rpc/testutils"
 )
 
 func TestClient(t *testing.T) {

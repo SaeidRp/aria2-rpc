@@ -1,4 +1,4 @@
-package resp
+package ario
 
 // source: https://github.com/alist-org/alist/blob/main/pkg/aria2/rpc/resp.go
 

@@ -9,9 +9,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/kahosan/aria2-rpc/internal/caller"
-	"github.com/kahosan/aria2-rpc/internal/resp"
-	"github.com/kahosan/aria2-rpc/notifier"
+	"github.com/saeidrp/aria2-rpc/caller"
+	"github.com/saeidrp/aria2-rpc/notifier"
 )
 
 type Client struct {
@@ -50,9 +49,9 @@ func NewClient(host string, token string, notify bool) (*Client, error) {
 }
 
 // only use when websocket is not supported, or if you want to use it yourself.
-// instructions for use -> https://github.com/kahosan/aria2-rpc/blob/master/client_test.go#L68
-func (c *Client) StatusListenerByPolling(ctx context.Context, gid string) (status chan *resp.Status) {
-	status = make(chan *resp.Status)
+// instructions for use -> https://github.com/saeidrp/aria2-rpc/blob/master/client_test.go#L68
+func (c *Client) StatusListenerByPolling(ctx context.Context, gid string) (status chan *Status) {
+	status = make(chan *Status)
 
 	go func() {
 		defer close(status)
@@ -130,42 +129,42 @@ func (c *Client) UnpauseAll() error {
 	return c.Call(method.UnpauseAll, c.makeParams(), nil)
 }
 
-func (c *Client) TellStatus(gid string, keys ...string) (status resp.Status, err error) {
+func (c *Client) TellStatus(gid string, keys ...string) (status Status, err error) {
 	err = c.Call(method.TellStatus, c.makeParams(gid, keys), &status)
 	return
 }
 
-func (c *Client) GetURIs(gid string) (uris []resp.URIs, err error) {
+func (c *Client) GetURIs(gid string) (uris []URIs, err error) {
 	err = c.Call(method.GetURIs, c.makeParams(gid), &uris)
 	return
 }
 
-func (c *Client) GetFiles(gid string) (files []resp.Files, err error) {
+func (c *Client) GetFiles(gid string) (files []Files, err error) {
 	err = c.Call(method.GetFiles, c.makeParams(gid), &files)
 	return
 }
 
-func (c *Client) GetPeers(gid string) (peers []resp.Peers, err error) {
+func (c *Client) GetPeers(gid string) (peers []Peers, err error) {
 	err = c.Call(method.GetPeers, c.makeParams(gid), &peers)
 	return
 }
 
-func (c *Client) GetServers(gid string) (servers []resp.Servers, err error) {
+func (c *Client) GetServers(gid string) (servers []Servers, err error) {
 	err = c.Call(method.GetServers, c.makeParams(gid), &servers)
 	return
 }
 
-func (c *Client) TellActive(keys ...string) (active []resp.Status, err error) {
+func (c *Client) TellActive(keys ...string) (active []Status, err error) {
 	err = c.Call(method.TellActive, c.makeParams(keys), &active)
 	return
 }
 
-func (c *Client) TellWaiting(offset, num int, keys ...string) (waiting []resp.Status, err error) {
+func (c *Client) TellWaiting(offset, num int, keys ...string) (waiting []Status, err error) {
 	err = c.Call(method.TellWaiting, c.makeParams(offset, num, keys), &waiting)
 	return
 }
 
-func (c *Client) TellStopped(offset, num int, keys ...string) (stopped []resp.Status, err error) {
+func (c *Client) TellStopped(offset, num int, keys ...string) (stopped []Status, err error) {
 	err = c.Call(method.TellStopped, c.makeParams(offset, num, keys), &stopped)
 	return
 }
@@ -200,7 +199,7 @@ func (c *Client) ChangeGlobalOption(options *Options) (err error) {
 	return
 }
 
-func (c *Client) GetGlobalStat() (stat resp.GlobalStat, err error) {
+func (c *Client) GetGlobalStat() (stat GlobalStat, err error) {
 	err = c.Call(method.GetGlobalStat, c.makeParams(), &stat)
 	return
 }
@@ -213,12 +212,12 @@ func (c *Client) RemoveDownloadResult(gid string) error {
 	return c.Call(method.RemoveDownloadResult, c.makeParams(gid), nil)
 }
 
-func (c *Client) GetVersion() (version resp.Version, err error) {
+func (c *Client) GetVersion() (version Version, err error) {
 	err = c.Call(method.GetVersion, c.makeParams(), &version)
 	return
 }
 
-func (c *Client) GetSessionInfo() (session resp.SessionInfo, err error) {
+func (c *Client) GetSessionInfo() (session SessionInfo, err error) {
 	err = c.Call(method.GetSessionInfo, c.makeParams(), &session)
 	return
 }

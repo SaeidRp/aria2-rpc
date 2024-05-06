@@ -7,7 +7,7 @@ This is a Go client for the Aria2 JSON-RPC interface
 To install the package, run:
 
 ```bash
-go get -u github.com/kahosan/aria2-rpc
+go get -u github.com/saeidrp/aria2-rpc
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ go get -u github.com/kahosan/aria2-rpc
 To use the client, first, import the package:
 
 ```go
-import ario "github.com/kahosan/aria2-rpc"
+import ario "github.com/saeidrp/aria2-rpc"
 ```
 
 Then create a new client with the `NewClient` function, passing in the host and token for the Aria2 instance:
@@ -38,7 +38,7 @@ if err != nil {
     // handle error
 }
 
-// if you want to add an option 
+// if you want to add an option
 opts := ario.Options{}
 opts.Dir = "/path/to/dir"
 gid, err := client.AddURI([]string{"http://example.com/file.txt"}, &opts)
@@ -86,7 +86,7 @@ defer notify.Close()
 
 gid, _ := client.AddURI([]string{"http://example.com/file.txt"}, nil)
 
-// return a channel whose value is GID 
+// return a channel whose value is GID
 <-notify.Complete()
 
 // or
