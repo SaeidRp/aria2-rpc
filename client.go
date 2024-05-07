@@ -50,8 +50,8 @@ func NewClient(host string, token string, notify bool) (*Client, error) {
 
 // only use when websocket is not supported, or if you want to use it yourself.
 // instructions for use -> https://github.com/saeidrp/aria2-rpc/blob/master/client_test.go#L68
-func (c *Client) StatusListenerByPolling(ctx context.Context, gid string) (status chan *Status) {
-	status = make(chan *Status)
+func (c *Client) StatusListenerByPolling(ctx context.Context, gid string) (status chan *StatusInfo) {
+	status = make(chan *StatusInfo)
 
 	go func() {
 		defer close(status)
@@ -65,7 +65,7 @@ func (c *Client) StatusListenerByPolling(ctx context.Context, gid string) (statu
 				if e != nil {
 					log.Printf("listener error: %v", e)
 					return
-				} else if s.Gid == "" {
+				} else if s.GID == "" {
 					log.Println("gid not found, maybe it was removed")
 					return
 				}
@@ -129,7 +129,7 @@ func (c *Client) UnpauseAll() error {
 	return c.Call(method.UnpauseAll, c.makeParams(), nil)
 }
 
-func (c *Client) TellStatus(gid string, keys ...string) (status Status, err error) {
+func (c *Client) TellStatus(gid string, keys ...string) (status StatusInfo, err error) {
 	err = c.Call(method.TellStatus, c.makeParams(gid, keys), &status)
 	return
 }
@@ -154,17 +154,17 @@ func (c *Client) GetServers(gid string) (servers []Servers, err error) {
 	return
 }
 
-func (c *Client) TellActive(keys ...string) (active []Status, err error) {
+func (c *Client) TellActive(keys ...string) (active []StatusInfo, err error) {
 	err = c.Call(method.TellActive, c.makeParams(keys), &active)
 	return
 }
 
-func (c *Client) TellWaiting(offset, num int, keys ...string) (waiting []Status, err error) {
+func (c *Client) TellWaiting(offset, num int, keys ...string) (waiting []StatusInfo, err error) {
 	err = c.Call(method.TellWaiting, c.makeParams(offset, num, keys), &waiting)
 	return
 }
 
-func (c *Client) TellStopped(offset, num int, keys ...string) (stopped []Status, err error) {
+func (c *Client) TellStopped(offset, num int, keys ...string) (stopped []StatusInfo, err error) {
 	err = c.Call(method.TellStopped, c.makeParams(offset, num, keys), &stopped)
 	return
 }

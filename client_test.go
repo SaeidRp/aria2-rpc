@@ -7,6 +7,7 @@ import (
 	"time"
 
 	ario "github.com/saeidrp/aria2-rpc"
+	"github.com/saeidrp/aria2-rpc/status"
 	"github.com/saeidrp/aria2-rpc/testutils"
 )
 
@@ -81,15 +82,15 @@ func TestClient(t *testing.T) {
 		statusChan := client.StatusListenerByPolling(ctx, gid)
 		for v := range statusChan {
 			switch v.Status {
-			case "active":
+			case status.Active:
 				t.Log("task active")
 				pe := client.Pause(gid)
 				if pe != nil {
 					t.Fatal(pe)
 				}
-			case "waiting":
+			case status.Waiting:
 				t.Log("task waiting")
-			case "paused":
+			case status.Paused:
 				t.Log("task paused")
 
 				// if you directly delete a task while it is in pause state, aria2 will complain
@@ -103,13 +104,13 @@ func TestClient(t *testing.T) {
 					t.Fatal(re)
 				}
 
-			case "error":
+			case status.Error:
 				t.Log("task error")
 				return
-			case "complete":
+			case status.Complete:
 				t.Log("task complete")
 				return
-			case "removed":
+			case status.Removed:
 				t.Log("task removed")
 				return
 			}
