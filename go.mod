@@ -1,18 +1,15 @@
 module github.com/saeidrp/aria2-rpc
 
-go 1.21
-
-toolchain go1.22.2
+go 1.25
 
 require (
-	github.com/creachadair/jrpc2 v1.2.0
-	github.com/creachadair/wschannel v0.0.0-20240419143920-8a0c643c57cc
-	github.com/gorilla/websocket v1.5.1
+	github.com/coder/websocket v1.8.14
+	github.com/creachadair/jrpc2 v1.3.4
+	github.com/creachadair/wschannel v0.0.0-20260213055748-5e7765ca49d8
+	github.com/gorilla/websocket v1.5.3
 )
 
 require (
-	github.com/creachadair/mds v0.14.6 // indirect
-	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
-	nhooyr.io/websocket v1.8.11 // indirect
+	github.com/creachadair/mds v0.26.0 // indirect
+	golang.org/x/sync v0.19.0 // indirect
 )

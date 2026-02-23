@@ -3,6 +3,7 @@ package caller
 import (
 	"context"
 
+	"github.com/coder/websocket"
 	"github.com/creachadair/jrpc2"
 	"github.com/creachadair/wschannel"
 )
@@ -13,11 +14,15 @@ type wsCaller struct {
 	close func() error
 }
 
-func newWsCaller(host string) (*wsCaller, error) {
-	ch, err := wschannel.Dial(host, nil)
+func newWsCaller(host string, readLimit int64) (*wsCaller, error) {
+	conn, _, err := websocket.Dial(context.Background(), host, nil)
 	if err != nil {
 		return nil, err
 	}
+
+	conn.SetReadLimit(readLimit)
+	ch := wschannel.New(conn)
+
 	rc := jrpc2.NewClient(ch, nil)
 
 	c := &wsCaller{

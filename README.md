@@ -29,6 +29,35 @@ if err != nil {
 defer client.Close()
 ```
 
+`NewClient(...)` remains backward-compatible. For WebSocket-specific tuning (for example large `aria2.tellActive` / `aria2.tellStopped` responses), use `NewClientWithOptions(...)`:
+
+```go
+client, err := ario.NewClientWithOptions(
+    "ws://localhost:6800/jsonrpc",
+    "token",
+    false,
+    &ario.ClientOptions{
+        // bytes; default is ario.DefaultWSReadLimit (8 MiB)
+        WSReadLimit: 16 * 1024 * 1024, // 16 MiB
+    },
+)
+if err != nil {
+    // handle error
+}
+defer client.Close()
+```
+
+### WebSocket Read Limit
+
+- Default: `ario.DefaultWSReadLimit` (`8 MiB`)
+- Applies only to WebSocket transport (`ws://` / `wss://`)
+- HTTP transport behavior is unchanged
+
+Guidance:
+
+- If you see `websocket: message too big`, increase `ClientOptions.WSReadLimit` based on your expected JSON-RPC payload size.
+- Keep a bounded limit instead of disabling it to avoid unbounded memory usage from oversized messages.
+
 Once you have a client, you can use it to call any of the Aria2 methods:
 
 ```go

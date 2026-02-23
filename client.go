@@ -21,12 +21,18 @@ type Client struct {
 }
 
 func NewClient(host string, token string, notify bool) (*Client, error) {
+	return NewClientWithOptions(host, token, notify, nil)
+}
+
+// NewClientWithOptions creates a new client and allows transport-specific
+// behavior to be configured.
+func NewClientWithOptions(host string, token string, notify bool, options *ClientOptions) (*Client, error) {
 	uri, err := url.Parse(host)
 	if err != nil {
 		return nil, err
 	}
 
-	c, err := caller.NewCaller(uri)
+	c, err := caller.NewCallerWithOptions(uri, options.toCallerOptions())
 	if err != nil {
 		return nil, err
 	}
